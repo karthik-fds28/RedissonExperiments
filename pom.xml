@@ -8,21 +8,21 @@
     <artifactId>mongodb-getting-started-with-java</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-<!--
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>-->
+    <!--
+        <properties>
+            <java.version>1.8</java.version>
+        </properties>-->
 
 
     <dependencies>
-<!--
+        <!--
 
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>3.10.1</version>
-        </dependency>
--->
+                <dependency>
+                    <groupId>org.mongodb</groupId>
+                    <artifactId>mongodb-driver-sync</artifactId>
+                    <version>3.10.1</version>
+                </dependency>
+        -->
         <!-- https://mvnrepository.com/artifact/de.ruedigermoeller/fst -->
         <dependency>
             <groupId>de.ruedigermoeller</groupId>
@@ -58,11 +58,11 @@
             <version>2.8.5</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.common.html.types/types -->
-      <!--  <dependency>
-            <groupId>com.google.common.html.types</groupId>
-            <artifactId>types</artifactId>
-            <version>1.0.5</version>
-        </dependency>-->
+        <!--  <dependency>
+              <groupId>com.google.common.html.types</groupId>
+              <artifactId>types</artifactId>
+              <version>1.0.5</version>
+          </dependency>-->
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -80,25 +80,32 @@
             <artifactId>spring-beans</artifactId>
         </dependency>
 -->
+        <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>4.3.10.RELEASE</version>
         </dependency>
 
-       <!-- <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>1.1.1</version>
-        </dependency>
+        <!-- <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>1.1.1</version>
+         </dependency>
 
--->
-       <!-- <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>28.1-jre</version>
-        </dependency>
--->
+ -->
+        <!-- <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>28.1-jre</version>
+         </dependency>
+ -->
         <!-- <dependency>
              <groupId>com.google.guava</groupId>
              <artifactId>guava</artifactId>
@@ -106,12 +113,12 @@
          </dependency>
          &lt;!&ndash; Thanks for using https://jar-download.com &ndash;&gt;-->
 
-      <!--  &lt;!&ndash; https://mvnrepository.com/artifact/com.google.guava/guava &ndash;&gt;
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
-        </dependency>-->
+        <!--  &lt;!&ndash; https://mvnrepository.com/artifact/com.google.guava/guava &ndash;&gt;
+          <dependency>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+              <version>30.1.1-jre</version>
+          </dependency>-->
 
 
         <!--<dependency>
@@ -139,11 +146,55 @@
             <version>2.12.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-apache-regexp -->
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-apache-regexp</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+<!--
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
 
     </dependencies>
 
+
     <properties>
         <java.version>1.8</java.version>
+        <lucene.version>7.4.0</lucene.version>
     </properties>
 
     <build>

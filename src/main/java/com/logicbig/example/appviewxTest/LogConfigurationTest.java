@@ -7,16 +7,20 @@ import org.redisson.api.LocalCachedMapOptions;
 import org.redisson.api.RLocalCachedMap;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
+import org.redisson.codec.TypedJsonJacksonCodec;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 public class LogConfigurationTest {
 
     RedissonClient redisson = RedisCacheConfig.getRedissonClient();
+    // JsonJacksonCodec.INSTANCE
+    TypedJsonJacksonCodec typedJsonJacksonCodec = new TypedJsonJacksonCodec(LogForwardingAppSettings.class);
     RLocalCachedMap<String, Object> rmap = redisson.getLocalCachedMap("testMap1", JsonJacksonCodec.INSTANCE, LocalCachedMapOptions.defaults());
     RLocalCachedMap<String, Object> rmap1 = redisson.getLocalCachedMap("testMap1", JsonJacksonCodec.INSTANCE, LocalCachedMapOptions.defaults());
     //JsonJacksonCodec.INSTANCE
@@ -75,19 +79,55 @@ public class LogConfigurationTest {
 
         String s = JsonParser.getParser().convertToJson(logForwardingAppSettings);
 
-        System.out.println("before storing into redis=" + s);
+        //System.out.println("before storing into redis=" + s);
 
         logConfigurationTest.saveItInRedis(logForwardingAppSettings);
 
         Thread.sleep(1000);
 
-
         LogForwardingAppSettings theValueFromRedis1 = logConfigurationTest.getTheValueFromRedis();
 
-        String outputString1 = JsonParser.getParser().convertToJson(theValueFromRedis1);
+        Map<String, Object> properties = theValueFromRedis1.getProperties();
+
+        System.out.println("before manipulation properties=" + properties);
+
+        //theValueFromRedis1.setProperties(null);
+
+        //theValueFromRedis1.setProperties(Collections.singletonMap("LOGFW_PROPERTIES", propertiesInList));
+        ArrayList logfw_propertiesList = (ArrayList) theValueFromRedis1.getProperties().get("LOGFW_PROPERTIES");
+        List<ArrayList> list = new ArrayList<>();
+
+        ArrayList list2 = new ArrayList<>();
+
+        list2.add(logfw_propertiesList);
+        list.add(list2);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("LOGFW_PROPERTIES", list);
+        theValueFromRedis1.setProperties(hashMap);
+
+        LogForwardingAppSettings theValueFromRedis = logConfigurationTest.getTheValueFromRedis();
+
+        System.out.println("After the manupulation properties  hence effected 1=" + theValueFromRedis.getProperties());
+
+        /*
+        logForwardingAppSettings=AppSettings [category=LOGFORWARDING, subCategory=LOGFORWARDING]
+        before manipulation properties={LOGFW_PROPERTIES=[{LOG_NAME=TCP, LOG_SERVER=192.168.142.185, LOG_PORT=5555, LOG_PROTOCOL=TCP}, {LOG_NAME=UDP, LOG_SERVER=192.168.142.185, LOG_PORT=5454, LOG_PROTOCOL=UDP}, {LOG_NAME=vignesh-test, LOG_SERVER=192.168.142.164, LOG_PORT=5414, LOG_PROTOCOL=TCP}]}
+        logForwardingAppSettings=AppSettings [category=LOGFORWARDING, subCategory=LOGFORWARDING]
+        //BECAUSE OF THE RLOCAL CACHE MAP DATA HAS BEEN CHANGED
+        After the manupulation properties  hence effected 1={LOGFW_PROPERTIES=[[[{LOG_NAME=TCP, LOG_SERVER=192.168.142.185, LOG_PORT=5555, LOG_PROTOCOL=TCP}, {LOG_NAME=UDP, LOG_SERVER=192.168.142.185, LOG_PORT=5454, LOG_PROTOCOL=UDP}, {LOG_NAME=vignesh-test, LOG_SERVER=192.168.142.164, LOG_PORT=5414, LOG_PROTOCOL=TCP}]]]}
+        logForwardingAppSettings=AppSettings [category=LOGFORWARDING, subCategory=LOGFORWARDING]
+        */
+
+
+        LogForwardingAppSettings theValueFromRedis2 = logConfigurationTest.getTheValueFromRedis();
+
+       /* System.out.println("After the manupulation properties 2=" + theValueFromRedis2.getProperties());
+
+        String outputString1 = JsonParser.getParser().convertToJson(theValueFromRedis1);*/
         //objectMapper.writeValueAsString(theValueFromRedis1);
 
-        System.out.println("After storing into json=" + outputString1);
+        //  System.out.println("After storing into json=" + outputString1);
 
         logConfigurationTest.redisson.shutdown();
         /*
@@ -198,9 +238,22 @@ public class LogConfigurationTest {
          //getRLocalCachedMap(collectionName).fastPutAsync("logForwarding", logForwardingAppSettings);
      }
  */
-    public LogForwardingAppSettings getTheValueFromRedis() {
-        LogForwardingAppSettings logForwardingAppSettings = (LogForwardingAppSettings) rmap.get("logForwardingWithJsonParser");
+
+    public LogForwardingAppSettings getTheValueFromRedis() throws IOException {
+
+        //Object logForwardingWithJsonParser = rmap.get("logForwardingWithJsonParser");
+        /*Class<?> aClass = logForwardingWithJsonParser.getClass();
+        System.out.println("class=" + aClass.getName());
+        System.out.println("redis data priniting=" + rmap.get("logForwardingWithJsonParser"));
+        String json = JsonParser.getParser().convertToJson(logForwardingWithJsonParser);
+
+        System.out.println("output json=" + json);
+        LogForwardingAppSettings logForwardingAppSettings = JsonParser.getParser().convertToBean(json, LogForwardingAppSettings.class);
+        System.out.println("output logForwardingAppSettings=" + logForwardingAppSettings);
+        //LogForwardingAppSettings logForwardingAppSettings = (LogForwardingAppSettings) rmap.get("logForwardingWithJsonParser");
         //LogForwardingAppSettings logForwardingAppSettings = (LogForwardingAppSettings) getRLocalCachedMap(collectionName).get("logForwarding");
+        */
+        LogForwardingAppSettings logForwardingAppSettings = (LogForwardingAppSettings) rmap.get("logForwardingWithJsonParser");
         System.out.println("logForwardingAppSettings=" + logForwardingAppSettings);
         return logForwardingAppSettings;
     }

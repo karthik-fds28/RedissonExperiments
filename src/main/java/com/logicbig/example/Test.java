@@ -8,6 +8,8 @@ import com.mongodb.DBObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -113,6 +115,15 @@ public class Test<T> {
         System.out.println(test.getType());
 */
         // System.out.println(object.getClass());
+    }
+
+
+    public void t1(){
+
+        List<String> list=new ArrayList<>();
+
+        list.stream();
+
     }
 
 }
